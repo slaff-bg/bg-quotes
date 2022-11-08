@@ -40,6 +40,22 @@ For the tests:
 
 ### How do I get set up? ###
 
+* Clone the package locally.
+* Go to the directory of your local copy.
+
+* The go.mod and go.sum files are excluded. Look at the very bottom of the gitignore file. So you have to set up the service locally.
+
+```sh
+  go mod init bg-quotes
+  go mod tidy
+```
+
+* Start the system.
+
+```sh
+  go run main.go
+```
+
 ...
 
 
