@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bg-quotes/api"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -21,6 +22,9 @@ func setupRouter() *gin.Engine {
 			"BG Quotes": "main page",
 		})
 	})
+
+	r.POST("/author/create", api.CreateAuthorHandler)
+	r.GET("/author/:author_id", api.ShowAuthorHandler)
 
 	return r
 }
