@@ -78,20 +78,29 @@ For the tests:
 
 ```sh
 curl -X POST -H "Content-Type: application/json" \
- -d '{"afname":"Henry","asname":"Bukowski","aaka":"Charles Bukowski","aimgurl":"https://upload.wikimedia.org/wikipedia/en/e/e2/Charles_Bukowski_smoking.jpg"}' \
- http://0.0.0.0:8080/author/create
+ -d '{"first_name":"Henry","second_name":"Bukowski","aka":"Charles Bukowski","img_url":"https://upload.wikimedia.org/wikipedia/en/e/e2/Charles_Bukowski_smoking.jpg"}' \
+ http://0.0.0.0:8080/authors
 ```
 
 ```sh
 curl -X POST -H "Content-Type: application/json" \
- -d '{"afname":"Charles","asname":"Chaplin","aaka":"Charlie Chaplin","aimgurl":"https://upload.wikimedia.org/wikipedia/commons/thumb/3/34/Charlie_Chaplin_portrait.jpg/330px-Charlie_Chaplin_portrait.jpg"}' \
- http://0.0.0.0:8080/author/create
+ -d '{"first_name":"Charles","second_name":"Chaplin","aka":"Charlie Chaplin","img_url":"https://upload.wikimedia.org/wikipedia/commons/thumb/3/34/Charlie_Chaplin_portrait.jpg/330px-Charlie_Chaplin_portrait.jpg"}' \
+ http://0.0.0.0:8080/authors
 ```
 
 * Show Author by UUID
 
 ```sh
-curl -v http://0.0.0.0:8080/author/<45dcb7b2-904f-4fa4-a9eb-53dc1fba04ca>
+curl -v http://0.0.0.0:8080/authors/<45dcb7b2-904f-4fa4-a9eb-53dc1fba04ca>
+```
+
+
+* Create Quote
+
+```sh
+curl -X POST -H "Content-Type: application/json" \
+ -d '{"quote":"If I feel like working, I sit down and wait for it to pass.","smoking_room":false,"author_id":""}' \
+ http://0.0.0.0:8080/quotes
 ```
 
 
@@ -102,9 +111,7 @@ curl -v http://0.0.0.0:8080/author/<45dcb7b2-904f-4fa4-a9eb-53dc1fba04ca>
 
 - [x] Initialize GIT and add gitignore and README
 - [x] Implement Gin Web Framework
-- [ ] Do domains design
-  - [ ] Start with the Authors first
-  - [ ] Do the same for the Quotes
+- [x] Do domains design
 - [ ] Do middleware validator for the dynamic arguments
 - [ ] Implement Author CRUD functionality.
 - [ ] Implement Quotes CRUD functionality.

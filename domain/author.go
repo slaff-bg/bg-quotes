@@ -5,13 +5,13 @@ import (
 )
 
 type Author struct {
-	AuthorId                             uuid.UUID
+	AuthorID                             uuid.UUID
 	FirstName, SecondName, AKA, ImageURL string
 }
 
 func CreateAuthor(fn, sn, aka, img string) Author {
 	return Author{
-		AuthorId:   uuid.New(),
+		AuthorID:   uuid.New(),
 		FirstName:  fn,
 		SecondName: sn,
 		AKA:        aka,
