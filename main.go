@@ -8,9 +8,9 @@ import (
 )
 
 func main() {
-	gin.SetMode(gin.DebugMode) // gin.ReleaseMode gin.TestMode gin.DebugMode
+	gin.SetMode(gin.DebugMode)
 	r := setupRouter()
-	r.Run(":8080") // listen and serve on 0.0.0.0:8080 by default
+	r.Run(":8080")
 }
 
 func setupRouter() *gin.Engine {
@@ -23,8 +23,9 @@ func setupRouter() *gin.Engine {
 		})
 	})
 
-	r.POST("/author/create", api.CreateAuthorHandler)
-	r.GET("/author/:author_id", api.ShowAuthorHandler)
+	r.POST("/authors", api.CreateAuthorHandler)
+	r.GET("/authors/:author_id", api.ShowAuthorHandler)
+	r.POST("/quotes", api.CreateQuoteHandler)
 
 	return r
 }
