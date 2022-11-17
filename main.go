@@ -17,15 +17,15 @@ func setupRouter() *gin.Engine {
 	r := gin.Default()
 	r.SetTrustedProxies(nil)
 
+	r.POST("/authors", api.CreateAuthorHandler)
+	r.GET("/authors/:author_id", api.ShowAuthorHandler)
+	r.POST("/quotes", api.CreateQuoteHandler)
+
 	r.GET("/", func(ctx *gin.Context) {
 		ctx.JSON(http.StatusOK, gin.H{
 			"BG Quotes": "main page",
 		})
 	})
-
-	r.POST("/authors", api.CreateAuthorHandler)
-	r.GET("/authors/:author_id", api.ShowAuthorHandler)
-	r.POST("/quotes", api.CreateQuoteHandler)
 
 	return r
 }
