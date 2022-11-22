@@ -11,26 +11,31 @@ So I cannot vouch for the correctness of the code and approaches and its quality
 
 - [x] Home page. Displays the project name.
 - [ ] System environment health check.
-- [ ] Authentication.
-- [ ] Quotes CRUD.
-- [ ] List of quotes. Including paging, filtering, and ordering.
-- [ ] Show a quote by its ID.
-- [ ] ...
+- [ ] List of authors.
+- [ ] List of quotes.
+- [ ] Show authors by their ID.
+- [ ] Show quotes by their ID.
+- [ ] etc.
 
 
 ## Functionalities ##
 
-For the tests:
+- [ ] Authors CRUD.
+- [ ] List of authors. Including paging, filtering, and ordering.
+- [x] Show authors by their ID.
+- [ ] Quotes CRUD.
+- [ ] List of quotes. Including paging, filtering, and ordering.
+- [ ] Show quotes by their ID.
+- [ ] Filtering/ordering/sorting.
+- [ ] User authentication.
+- [ ] User authorization.
+- [ ] API versioning.
+- [ ] Defining OpenAPI specification.
+- [ ] etc.
 
-- [ ] Quotes CRUD functionality.
-- [ ] Passed argument validator.
-- [ ] Filtering and ordering/sorting.
-- [ ] ...
 
 
-## Notes ##
-
-### Dependencies ###
+## Dependencies ##
 
 - [Golang](https://go.dev/dl/) version go1.19.
 - [Docker](https://www.docker.com/) version 20.10.18.
@@ -38,35 +43,78 @@ For the tests:
 &#x1F4CC; &nbsp; *<sub>Versions reflect the current state of the used technologies.</sub>*
 
 
-### How do I get set up? ###
+## How do I get set up? ##
 
 * Clone the package locally.
 * Go to the directory of your local copy.
 
 * The go.mod and go.sum files are excluded. Look at the very bottom of the gitignore file. So you have to set up the service locally.
 
-```sh
-  go mod init bg-quotes
-  go mod tidy
-```
+  ```sh
+    go mod init bg-quotes
+    go mod tidy
+  ```
 
 * Start the system.
 
+  ```sh
+    go run main.go
+  ```
+
+
+## How to run tests? ##
+
+* Open a CLI.
+* Go to the directory of your local copy.
+* Clean the cache using the following command:
+  
+  ```sh
+    go clean -testcache
+  ```
+
+### Run all tests. ###
+
 ```sh
-  go run main.go
+go test ./...
 ```
 
-...
+### Run the test in a concrete directory. ###
 
+- Run all tests in the main directory only
 
-### How to use DB container via terminal? ###
+  ```sh
+  go test .
+  ```
 
-...
+- Run all tests in api directory only
 
+  ```sh
+  go test ./api
+  ```
 
-### How to run tests? ###
+- Run all tests in domain directory only
 
-...
+  ```sh
+  go test ./domain
+  ```
+
+### Run a separate test. ###
+
+- Run separate test located in the root directory
+
+  ```sh
+  go test . -run=TestMainHandler_StatusOK_BodyContent
+  ```
+
+- Run separate test located in domain directory
+
+  ```sh
+  go test ./domain -run=TestCreateAuthor
+
+  go test ./domain -run=TestCreateQuote
+
+  go test ./domain -run=TestURankIota
+  ```
 
 
 ### API Test Links ###
@@ -82,18 +130,11 @@ curl -X POST -H "Content-Type: application/json" \
  http://0.0.0.0:8080/authors
 ```
 
-```sh
-curl -X POST -H "Content-Type: application/json" \
- -d '{"first_name":"Charles","second_name":"Chaplin","aka":"Charlie Chaplin","img_url":"https://upload.wikimedia.org/wikipedia/commons/thumb/3/34/Charlie_Chaplin_portrait.jpg/330px-Charlie_Chaplin_portrait.jpg"}' \
- http://0.0.0.0:8080/authors
-```
-
 * Show Author by UUID
 
 ```sh
 curl -v http://0.0.0.0:8080/authors/<45dcb7b2-904f-4fa4-a9eb-53dc1fba04ca>
 ```
-
 
 * Create Quote
 
@@ -104,19 +145,4 @@ curl -X POST -H "Content-Type: application/json" \
 ```
 
 
-### TODO ###
-
-> __WARNING__
-> All these points must include tests before being marked as complete.
-
-- [x] Initialize GIT and add gitignore and README
-- [x] Implement Gin Web Framework
-- [x] Do domains design
-- [ ] Do middleware validator for the dynamic arguments
-- [ ] Implement Author CRUD functionality.
-- [ ] Implement Quotes CRUD functionality.
-- [ ] Implemented authentication by using tokens
-- [ ] Add functionality for API versions.
-- [ ] Add filtering / ordering / sorting.
-- [ ] 
 
