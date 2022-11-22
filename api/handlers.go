@@ -20,7 +20,7 @@ type CreateAuthorArgs struct {
 type CreateQuoteArgs struct {
 	Quote       string `json:"quote" form:"quote" binding:"required,min=8,max=256,excludesall=\\\"'<>!@#$%^&*()_+=?/"`
 	SmokingRoom bool   `json:"smoking_room" form:"smoking_room" validate:"required"`
-	AuthorID    string `json:"author_id" form:"author_id" binding:"omitempty,uuid"`
+	AuthorID    string `json:"author" form:"author" binding:"omitempty,uuid"`
 	// AuthorID    uuid.UUID `json:"author_id" form:"author_id" binding:"omitempty,uuid"`
 }
 
@@ -35,7 +35,7 @@ func CreateAuthorHandler(c *gin.Context) {
 	da := domain.CreateAuthor(args.FirstName, args.SecondName, args.AKA, args.ImageURL)
 	sa := storage.AuthorAdd(da)
 	dto := createAuthorDTO(sa)
-	c.JSON(http.StatusOK, dto)
+	c.JSON(http.StatusCreated, dto)
 }
 
 func ShowAuthorHandler(c *gin.Context) {
@@ -70,15 +70,19 @@ func CreateQuoteHandler(c *gin.Context) {
 		}
 
 		if a, found := storage.AuthorGet(aid); found {
-			dto := createAuthorDTO(a)
-			author = dto
-		} else {
-			author = make(map[string]string)
+			author = createAuthorDTO(a)
 		}
+	}
+
+	// I keep the Quotes JSON structure by adding an empty JSON object to the Author if its current state is nil.
+	// Thus, the frontend part can always rely on Author as a JSON object instead of doing a JSON/nil check.
+	// In other words, if the response status is 200, an idempotent payload can be relied upon.
+	if author == nil {
+		author = make(map[string]string)
 	}
 
 	dq := domain.CreateQuote(args.Quote, args.SmokingRoom, args.AuthorID)
 	sq := storage.QuoteAdd(dq)
 	dto := createQuoteDTO(sq, author)
-	c.JSON(http.StatusOK, dto)
+	c.JSON(http.StatusCreated, dto)
 }

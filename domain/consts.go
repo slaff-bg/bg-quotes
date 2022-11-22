@@ -4,9 +4,9 @@ package domain
 type URank uint8
 
 const (
-	SuperAdmin URank = iota
-	Admin
-	Contributor
-	Subscriber
-	Nomad
+	URSuperAdmin URank = iota
+	URAdmin
+	URContributor
+	URSubscriber
+	URNomad
 )
