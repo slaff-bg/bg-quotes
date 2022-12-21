@@ -19,3 +19,4 @@ func CreateQuote(quote string, smokingRoom bool, author string) Quote {
 }
 
 // https://theculturetrip.com/europe/bulgaria/articles/11-sayings-and-proverbs-to-help-you-understand-bulgarian-culture/
+// https://www.missbloom.bg/living/knigi-tehnologii/15-lubimi-citati-ot-bulgarski-pisateli/

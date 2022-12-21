@@ -20,7 +20,7 @@ type CreateAuthorArgs struct {
 type CreateQuoteArgs struct {
 	Quote       string `json:"quote" form:"quote" binding:"required,min=8,max=256,excludesall=\\\"'<>!@#$%^&*()_+=?/"`
 	SmokingRoom bool   `json:"smoking_room" form:"smoking_room" validate:"required"`
-	AuthorID    string `json:"author" form:"author" binding:"omitempty,uuid"`
+	AuthorID    string `json:"author" form:"author_id" binding:"omitempty,uuid"`
 	// AuthorID    uuid.UUID `json:"author_id" form:"author_id" binding:"omitempty,uuid"`
 }
 
@@ -33,7 +33,7 @@ func CreateAuthorHandler(c *gin.Context) {
 	}
 
 	da := domain.CreateAuthor(args.FirstName, args.SecondName, args.AKA, args.ImageURL)
-	sa := storage.AuthorAdd(da)
+	sa := storage.AuthorCreate(da)
 	dto := createAuthorDTO(sa)
 	c.JSON(http.StatusCreated, dto)
 }
@@ -45,7 +45,7 @@ func ShowAuthorHandler(c *gin.Context) {
 		return
 	}
 
-	if lia, found := storage.AuthorGet(aid); found {
+	if lia, found := storage.AuthorRead(aid); found {
 		dto := createAuthorDTO(lia)
 		c.JSON(http.StatusOK, dto)
 		return
@@ -61,28 +61,34 @@ func CreateQuoteHandler(c *gin.Context) {
 		return
 	}
 
-	var author interface{}
-	if len(args.AuthorID) > 0 {
-		aid, err := uuid.Parse(args.AuthorID)
-		if err != nil {
-			c.JSON(http.StatusBadRequest, gin.H{"errors": err.Error()})
-			return
-		}
-
-		if a, found := storage.AuthorGet(aid); found {
-			author = createAuthorDTO(a)
-		}
-	}
-
-	// I keep the Quotes JSON structure by adding an empty JSON object to the Author if its current state is nil.
-	// Thus, the frontend part can always rely on Author as a JSON object instead of doing a JSON/nil check.
-	// In other words, if the response status is 200, an idempotent payload can be relied upon.
-	if author == nil {
-		author = make(map[string]string)
+	author, err := GetAuthorDTO(args.AuthorID)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"errors": err.Error()})
 	}
 
 	dq := domain.CreateQuote(args.Quote, args.SmokingRoom, args.AuthorID)
-	sq := storage.QuoteAdd(dq)
+	sq := storage.QuoteCreate(dq)
 	dto := createQuoteDTO(sq, author)
 	c.JSON(http.StatusCreated, dto)
+}
+
+func ShowQuoteHandler(c *gin.Context) {
+	qid, err := uuid.Parse(c.Param("quote_id"))
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"errors": err.Error()})
+		return
+	}
+
+	if lia, found := storage.QuoteRead(qid); found {
+		author, err := GetAuthorDTO(lia.AuthorID)
+		if err != nil {
+			c.JSON(http.StatusBadRequest, gin.H{"errors": err.Error()})
+		}
+
+		dto := createQuoteDTO(lia, author)
+		c.JSON(http.StatusOK, dto)
+		return
+	}
+
+	c.JSON(http.StatusNotFound, make(map[string]string))
 }

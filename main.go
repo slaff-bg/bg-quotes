@@ -10,7 +10,7 @@ import (
 func main() {
 	gin.SetMode(gin.DebugMode)
 	r := setupRouter()
-	r.Run(":8080")
+	r.Run(":3000")
 }
 
 func setupRouter() *gin.Engine {
@@ -20,6 +20,7 @@ func setupRouter() *gin.Engine {
 	r.POST("/authors", api.CreateAuthorHandler)
 	r.GET("/authors/:author_id", api.ShowAuthorHandler)
 	r.POST("/quotes", api.CreateQuoteHandler)
+	r.GET("/quotes/:quote_id", api.ShowQuoteHandler)
 
 	r.GET("/", func(ctx *gin.Context) {
 		ctx.JSON(http.StatusOK, gin.H{

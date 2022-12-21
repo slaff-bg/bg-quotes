@@ -6,6 +6,8 @@ The exercise recreates an API project for thoughts and quotes from Bulgarian fol
 That is a test project for learning purposes and one of my first Golang codes.
 So I cannot vouch for the correctness of the code and approaches and its quality in a production environment.
 
+All advice and recommendations are welcome. :)
+
 
 ## Features ##
 
@@ -13,8 +15,8 @@ So I cannot vouch for the correctness of the code and approaches and its quality
 - [ ] System environment health check.
 - [ ] List of authors.
 - [ ] List of quotes.
-- [ ] Show authors by their ID.
-- [ ] Show quotes by their ID.
+- [x] Show author by UUID.
+- [x] Show quote by UUID.
 - [ ] etc.
 
 
@@ -22,10 +24,10 @@ So I cannot vouch for the correctness of the code and approaches and its quality
 
 - [ ] Authors CRUD.
 - [ ] List of authors. Including paging, filtering, and ordering.
-- [x] Show authors by their ID.
+- [x] Show author by UUID.
 - [ ] Quotes CRUD.
 - [ ] List of quotes. Including paging, filtering, and ordering.
-- [ ] Show quotes by their ID.
+- [x] Show quote by UUID.
 - [ ] Filtering/ordering/sorting.
 - [ ] User authentication.
 - [ ] User authorization.
@@ -60,6 +62,14 @@ So I cannot vouch for the correctness of the code and approaches and its quality
   ```sh
     go run main.go
   ```
+
+### Using Docker Container ###
+
+```sh
+docker build --tag bgquotes:v0.1.1 .
+
+docker run --publish 3000:3000 bgquotes:v0.1.1
+```
 
 
 ## How to run tests? ##
@@ -100,10 +110,16 @@ go test ./...
 
 ### Run a separate test. ###
 
-- Run separate test located in the root directory
+- Run separate test located in the main directory
 
   ```sh
   go test . -run=TestMainHandler_StatusOK_BodyContent
+
+  go test . -run=TestCreateAuthorHandler_StatusOK_BodyContent
+
+  go test . -run=TestCreateQuoteHandler_StatusOK_BodyContent
+
+  go test . -run=TestShowAuthorHandler_StatusOK_BodyContent
   ```
 
 - Run separate test located in domain directory
@@ -116,6 +132,18 @@ go test ./...
   go test ./domain -run=TestURankIota
   ```
 
+- Run separate test located in storage directory
+
+  ```sh
+  go test ./storage -run=TestAuthorCreate
+
+  go test ./storage -run=TestAuthorRead
+
+  go test ./storage -run=TestAuthorCreate
+
+  go test ./storage -run=TestQuoteRead
+  ```
+
 
 ### API Test Links ###
 
@@ -126,7 +154,7 @@ go test ./...
 
 ```sh
 curl -X POST -H "Content-Type: application/json" \
- -d '{"first_name":"Henry","second_name":"Bukowski","aka":"Charles Bukowski","img_url":"https://upload.wikimedia.org/wikipedia/en/e/e2/Charles_Bukowski_smoking.jpg"}' \
+ -d '{"first_name":"Yordan","second_name":"Radichkov","aka":"Yordan Radichkov","img_url":"https://upload.wikimedia.org/wikipedia/en/thumb/1/1a/Yordan_Radichkov.jpg/200px-Yordan_Radichkov.jpg"}' \
  http://0.0.0.0:8080/authors
 ```
 
