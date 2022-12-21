@@ -15,8 +15,8 @@ func TestCreateAuthor(t *testing.T) {
 		AKA        string
 		ImageURL   string
 	}{
-		{"Henry", "Bukowski", "Charles Bukowski", "https://upload.wikimedia.org/wikipedia/en/e/e2/Charles_Bukowski_smoking.jpg"},
-		{"Charles", "Chaplin", "Charlie Chaplin", "https://upload.wikimedia.org/wikipedia/commons/thumb/3/34/Charlie_Chaplin_portrait.jpg/330px-Charlie_Chaplin_portrait.jpg"},
+		{"Yordan", "Radichkov", "Yordan Radichkov", "https://upload.wikimedia.org/wikipedia/en/thumb/1/1a/Yordan_Radichkov.jpg/200px-Yordan_Radichkov.jpg"},
+		{"Йордан", "Радичков", "Йордан Радичков", "https://upload.wikimedia.org/wikipedia/en/thumb/1/1a/Yordan_Radichkov.jpg/200px-Yordan_Radichkov.jpg"},
 	}
 
 	for _, tc := range tests {

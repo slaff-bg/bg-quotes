@@ -12,12 +12,12 @@ var qData = sync.Map{}
 
 // Author functions
 
-func AuthorAdd(a domain.Author) domain.Author {
+func AuthorCreate(a domain.Author) domain.Author {
 	aData.Store(a.AuthorID, a)
 	return a
 }
 
-func AuthorGet(id uuid.UUID) (domain.Author, bool) {
+func AuthorRead(id uuid.UUID) (domain.Author, bool) {
 	author, found := aData.Load(id)
 	if found {
 		return author.(domain.Author), found
@@ -28,12 +28,12 @@ func AuthorGet(id uuid.UUID) (domain.Author, bool) {
 
 // Quote functions
 
-func QuoteAdd(q domain.Quote) domain.Quote {
+func QuoteCreate(q domain.Quote) domain.Quote {
 	qData.Store(q.QuoteID, q)
 	return q
 }
 
-func QuoteGet(id uuid.UUID) (domain.Quote, bool) {
+func QuoteRead(id uuid.UUID) (domain.Quote, bool) {
 	quote, found := qData.Load(id)
 	if found {
 		return quote.(domain.Quote), found
